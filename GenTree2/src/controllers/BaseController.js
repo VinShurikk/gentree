@@ -3,21 +3,24 @@
 export class BaseController {
 
   service;
+  me;
 
   constructor(service) {
     console.log("constructor is executed with "+ JSON.stringify(service));
     this.service = service;
+    this.me = this;
   }
 
   getById(req, res) {
+    debugger;
     const id = req.params.id
-    res.json(this.service.getById(id)
-      .then(data => JSON.stringify(data)));
+    this.service.getById(id)
+      .then(data => res.json(data));
   }
 
   getAll(req, res) {
-    res.json(this.service.getAll()
-      .then(data => JSON.stringify(data)));
+    this.service.getAll()
+      .then(data => res.json(data));
   }
 
   getPage(req, res) {
@@ -26,27 +29,26 @@ export class BaseController {
       page: req.query.page || 0,
       size: req.query.size || 20,
     }
-    debugger;
-    res.json(this.service.getPage(filter, pageData)
-      .then(data => JSON.stringify(data)));
+    this.service.getPage(filter, pageData)
+      .then(data => res.json(data));
   }
 
   insert(req, res) {
     const items = readBody(req);
-    res.json(this.service.insert(items)
-      .then(data => JSON.stringify(data)));
+    this.service.insert(items)
+      .then(data => res.json(data));
   }
 
   update(req, res) {
     const items = readBody(req);
-    res.json(this.service.update(items)
-      .then(data => JSON.stringify(data)));
+    this.service.update(items)
+      .then(data => res.json(data));
   }
 
   delete(req, res) {
     const id = req.params.id
-    res.json(this.service.delete(id)
-      .then(data => JSON.stringify(data)));
+    this.service.delete(id)
+      .then(data => res.json(data));
   }
 
 }

@@ -1,23 +1,34 @@
-// src/components/IndexPage.js
 import React from 'react';
 import Person from './Person';
 import { persons } from '../data/mock';
-import PersonModel from '../models/Person'
 import Form from "./Form";
+import PersonModel, {add as addPerson} from '../models/Person'
+import DayPickerInput from 'react-day-picker/DayPickerInput';
 
 export default class IndexPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {isVisible: false}
+    this.state = {isVisible: false, counter:0, isToggleOn: true}
   }
 
-  show() {
-    this.setState({ isVisible: true });
+  show(value) {
+    console.log("show()");
+    if (value) console.log("Value is set");
+    this.setState({
+      isVisible: true,
+      value: value,
+      counter: this.state.counter+1
+    });
   }
 
   hide() {
-    this.setState({ isVisible: false });
+    console.log("hide()");
+    this.setState({
+      isVisible: false,
+      value: null
+    });
+    console.log(this.state.value);
   }
 
   render() {
@@ -25,8 +36,10 @@ export default class IndexPage extends React.Component {
       <div className="home">
         <div className="athletes-selector">
           {persons.map(person => <Person person={person}/>)}
-          <Form model={PersonModel}/>
-          <input type="button" value="Add person" onClick={this.show()}/>
+          <Form model={PersonModel} isVisible={this.state.isVisible} value={this.state.value} onAdd={addPerson.bind(this)} onCancel={this.hide.bind(this)}/>
+          <button onClick={this.show.bind(this, this.state.value)}>Add person</button>
+          <div>{this.state.counter}</div>
+
         </div>
       </div>
     );

@@ -1,10 +1,10 @@
 import PersonController from './controllers/PersonController'
 
 export default function addApiRoutes(app) {
-  app.get('/persons/all', PersonController.getAll);
-  app.get('/persons', PersonController.getPage);
-  app.get('/person/:id', PersonController.getById);
-  app.post('/person', PersonController.insert);
-  app.put('/person', PersonController.update);
-  app.delete('/person/:id', PersonController.delete);
+  app.get('/persons/all', PersonController.getAll.bind(PersonController));
+  app.get('/persons', PersonController.getPage.bind(PersonController));
+  app.get('/person/:id', PersonController.getById.bind(PersonController));
+  app.post('/person', PersonController.insert.bind(PersonController));
+  app.put('/person', PersonController.update.bind(PersonController));
+  app.delete('/person/:id', PersonController.delete.bind(PersonController));
 }
